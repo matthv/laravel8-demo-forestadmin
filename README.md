@@ -47,7 +47,7 @@ npm install && npm run production
 ## Forest Admin
 Start your onboarding on Forest Admin and copy past the api secret to your config/forest.php file.
 
-##Serving Laravel
+## Serving Laravel
 ```
 php artisan serve
 ```
