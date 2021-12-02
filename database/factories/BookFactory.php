@@ -27,7 +27,7 @@ class BookFactory extends Factory
             'difficulty'        => $this->faker->randomElement(['easy', 'hard']),
             'amount'            => $this->faker->randomFloat(2),
             'active'            => $this->faker->boolean(),
-            'options'           => json_encode([$this->faker->name() => $this->faker->name()], JSON_THROW_ON_ERROR | true),
+            'options'           => [$this->faker->name() => $this->faker->name()],
             'category_id'       => Category::all()->random()->id,
         ];
     }
