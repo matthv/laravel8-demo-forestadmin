@@ -64,8 +64,8 @@ class DatabaseSeeder extends Seeder
             }
 
             $user = $users->find($key + 1);
-            Author::create(['user_id' => $user->id]);
-            $user->book_id = $book->id;
+            $author = Author::create(['book_id' => $book->id]);
+            $user->author_id = $author->id;
             $user->save();
 
             Editor::create(['name' => $faker->name, 'book_id' => $book->id]);

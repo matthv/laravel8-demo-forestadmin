@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBookToUsersTable extends Migration
+class AddAuthorToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddBookToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('book_id')->nullable()->constrained();
+            $table->foreignId('author_id')->nullable()->constrained();
         });
     }
 
@@ -26,7 +26,7 @@ class AddBookToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('book_id');
+            $table->dropColumn('author_id');
         });
     }
 }
