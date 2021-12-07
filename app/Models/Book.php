@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Book extends Model
@@ -67,7 +66,7 @@ class Book extends Model
     /**
      * @return HasOneThrough
      */
-    public function author(): HasOneThrough
+    public function authorUser(): HasOneThrough
     {
         return $this->hasOneThrough(User::class, Author::class);
     }
