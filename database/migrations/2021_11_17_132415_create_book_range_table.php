@@ -15,8 +15,8 @@ class CreateBookRangeTable extends Migration
     {
         Schema::create('book_range', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained();
-            $table->foreignId('range_id')->constrained();
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->foreignId('range_id')->constrained()->onDelete('cascade');
         });
     }
 

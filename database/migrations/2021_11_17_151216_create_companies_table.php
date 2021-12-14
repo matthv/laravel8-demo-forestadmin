@@ -16,7 +16,7 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('book_id')->constrained();
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

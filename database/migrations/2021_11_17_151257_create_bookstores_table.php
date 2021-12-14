@@ -16,7 +16,7 @@ class CreateBookstoresTable extends Migration
         Schema::create('bookstores', function (Blueprint $table) {
             $table->id();
             $table->string('label');
-            $table->foreignId('company_id')->constrained();
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

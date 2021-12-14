@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->boolean('active')->default(true);
             $table->jsonb('options');
             $table->string('other')->default('N/A');
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
