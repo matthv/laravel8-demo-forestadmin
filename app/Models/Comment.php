@@ -13,7 +13,7 @@ class Comment extends Model
     /**
      * @return BelongsTo
      */
-    public function book()
+    public function book(): BelongsTo
     {
         return $this->belongsTo(Book::class);
     }
@@ -21,7 +21,7 @@ class Comment extends Model
     /**
      * @return BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
