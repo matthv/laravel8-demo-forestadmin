@@ -48,6 +48,14 @@ class Book extends Model
     }
 
     /**
+     * @return HasMany
+     */
+    public function movies(): HasMany
+    {
+        return $this->hasMany(Movie::class);
+    }
+
+    /**
      * @return HasManyThrough
      */
     public function bookstores(): HasManyThrough
@@ -85,6 +93,14 @@ class Book extends Model
     public function tags(): MorphMany
     {
         return $this->morphMany(Tag::class, 'taggable');
+    }
+
+    /**
+     * @return MorphMany
+     */
+    public function sequels(): MorphMany
+    {
+        return $this->morphMany(Sequel::class, 'sequelable');
     }
 
     /**
