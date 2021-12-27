@@ -10,8 +10,10 @@ use App\Models\Bookstore;
 use App\Models\Editor;
 use App\Models\Company;
 use App\Models\Image;
+use App\Models\Movie;
 use App\Models\Product;
 use App\Models\Range;
+use App\Models\Sequel;
 use App\Models\Tag;
 use App\Models\User;
 use Faker\Factory;
@@ -30,9 +32,9 @@ class DatabaseSeeder extends Seeder
             ->has(
                 Product::factory()
                     ->count(3)
-                    ->has(Category::factory()->count(3))
             )
             ->create();
+        $categories = Category::factory(3)->create();
         $books = Book::factory(50)->create();
         $ranges = Range::factory(20)->create();
 
@@ -45,6 +47,10 @@ class DatabaseSeeder extends Seeder
                 new Comment(['user_id' => $users->find(rand(1, 10))->id, 'body' => $faker->sentence()]),
                 new Comment(['user_id' => $users->find(rand(1, 10))->id, 'body' => $faker->sentence()]),
             ]);
+            $book->movies()->saveMany([
+                new Movie(['body' => $faker->sentence()]),
+                new Movie(['body' => $faker->sentence()]),
+            ]);
 
             $image = new Image(['name' => $faker->name, 'url' => $faker->url()]);
             $image->imageable()->associate($book);
@@ -54,6 +60,10 @@ class DatabaseSeeder extends Seeder
                 $tag = new Tag(['label' => $faker->name]);
                 $tag->taggable()->associate($book);
                 $tag->save();
+
+                $sequel = new Sequel(['label' => $faker->name]);
+                $sequel->sequelable()->associate($book);
+                $sequel->save();
             }
         });
 
