@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ForestAdmin\LaravelForestAdmin\Schema\Concerns\ForestCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,10 +18,25 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Book extends Model
 {
     use HasFactory;
+    #use ForestCollection;
+
+    /**
+     * @return array
+     */
+    public function searchFields(): array
+    {
+        return ['id', 'label'];
+    }
 
     protected $casts = [
         'options' => 'array',
         'active'  => 'boolean',
+    ];
+
+    protected array $fields = [
+        // todo à virer
+        //['field' => 'label', 'is_required' => false],
+        ['field' => 'difficulty', 'enums' => ['easy', 'hard']],
     ];
 
     /**
@@ -69,6 +85,14 @@ class Book extends Model
     public function editor(): HasOne
     {
         return $this->hasOne(Editor::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function advertisement(): HasOne
+    {
+        return $this->hasOne(Advertisement::class);
     }
 
     /**

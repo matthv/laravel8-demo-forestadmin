@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Advertisement;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
@@ -34,7 +35,7 @@ class DatabaseSeeder extends Seeder
                     ->count(3)
             )
             ->create();
-        $categories = Category::factory(3)->create();
+        Category::factory(3)->create();
         $books = Book::factory(50)->create();
         $ranges = Range::factory(20)->create();
 
@@ -79,6 +80,7 @@ class DatabaseSeeder extends Seeder
             $user->save();
 
             Editor::create(['name' => $faker->name, 'book_id' => $book->id]);
+            Advertisement::create(['label' => $faker->name, 'book_id' => $book->id]);
         }
     }
 }
