@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use ForestAdmin\LaravelForestAdmin\Schema\Concerns\ForestCollection;
+use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Book extends Model
 {
     use HasFactory;
-    #use ForestCollection;
+    use ForestCollection;
 
     /**
      * @return array
@@ -33,11 +33,18 @@ class Book extends Model
         'active'  => 'boolean',
     ];
 
-    protected array $fields = [
-        // todo à virer
-        //['field' => 'label', 'is_required' => false],
-        ['field' => 'difficulty', 'enums' => ['easy', 'hard']],
-    ];
+    /**
+     * @return array
+     * @codeCoverageIgnore
+     */
+    public function schemaFields(): array
+    {
+        return [
+            // todo à virer
+            //['field' => 'label', 'is_required' => false],
+            ['field' => 'difficulty', 'enums' => ['easy', 'hard']],
+        ];
+    }
 
     /**
      * @return BelongsTo
