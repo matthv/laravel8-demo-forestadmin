@@ -24,6 +24,7 @@ class ProductFactory extends Factory
         return [
             'label' => $this->faker->name,
             'price' => $this->faker->randomFloat(2, 100, 1000),
+            'token' => $this->faker->uuid,
         ];
     }
 }
