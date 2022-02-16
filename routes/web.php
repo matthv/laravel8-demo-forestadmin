@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::post('forest/charts/example-value', [ChartsController::class, 'value']);
+Route::post('forest/charts/example-pie', [ChartsController::class, 'pie']);
+Route::post('forest/charts/example-line', [ChartsController::class, 'line']);
+Route::post('forest/charts/example-objective', [ChartsController::class, 'objective']);
+Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'leaderboard']);
+

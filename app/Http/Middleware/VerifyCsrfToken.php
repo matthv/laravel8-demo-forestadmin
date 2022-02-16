@@ -12,6 +12,10 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '/forest/charts/example-value',
+        '/forest/charts/example-pie',
+        '/forest/charts/example-line',
+        '/forest/charts/example-objective',
+        '/forest/charts/example-leaderboard',
     ];
 }
