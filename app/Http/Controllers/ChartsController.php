@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use ForestAdmin\LaravelForestAdmin\Facades\ChartApi;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ChartsController extends Controller
