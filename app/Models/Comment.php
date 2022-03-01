@@ -11,6 +11,15 @@ class Comment extends Model
     use HasFactory;
 
     /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'body',
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function book(): BelongsTo

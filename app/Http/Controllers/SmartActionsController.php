@@ -66,4 +66,28 @@ class SmartActionsController extends Controller
 
         return Storage::download('file.txt');
     }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addComment(Request $request): JsonResponse
+    {
+        $id = $request->input('data.attributes.ids')[0];
+        $body = $request->input('data.attributes.values.body');
+        $book = Book::findOrFail($id);
+        $book->comments()->create(
+            [
+                'body'    => $body,
+                'user_id' => auth('forest')->user()->getKey(),
+            ]
+        );
+
+        return response()->json(
+            [
+                'success' => 'Comment created',
+                'refresh' => ['relationships' => ['comments']],
+            ]
+        );
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartActions\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartActions\Field;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\App;
 
 class Book extends Model
 {
@@ -57,6 +59,15 @@ class Book extends Model
             new SmartAction(class_basename($this), 'smart action bulk', '/forest/smart-actions/smart-action-bulk', [], 'bulk'),
             new SmartAction(class_basename($this), 'smart action global', '/forest/smart-actions/smart-action-global', [], 'global'),
             new SmartAction(class_basename($this), 'smart action download', '/forest/smart-actions/smart-action-download', [], 'global', true),
+            new SmartAction(
+                class_basename($this),
+                'add comment',
+                '/forest/smart-actions/add-comment',
+                [
+                    App::makeWith(Field::class, ['field' => 'body', 'type' => 'string'])->required(true)
+                ],
+                'single'
+            ),
         ];
     }
 
