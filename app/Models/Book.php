@@ -55,19 +55,48 @@ class Book extends Model
     public function smartActions(): array
     {
         return [
-            new SmartAction(class_basename($this), 'smart action single', '/forest/smart-actions/smart-action-single', [], 'single'),
-            new SmartAction(class_basename($this), 'smart action bulk', '/forest/smart-actions/smart-action-bulk', [], 'bulk'),
-            new SmartAction(class_basename($this), 'smart action global', '/forest/smart-actions/smart-action-global', [], 'global'),
-            new SmartAction(class_basename($this), 'smart action download', '/forest/smart-actions/smart-action-download', [], 'global', true),
-            new SmartAction(
-                class_basename($this),
-                'add comment',
-                '/forest/smart-actions/add-comment',
+            App::makeWith(SmartAction::class,
                 [
-                    App::makeWith(Field::class, ['field' => 'body', 'type' => 'string'])->required(true)
-                ],
-                'single'
+                    'model' => class_basename($this),
+                    'name'  => 'smart action single',
+                    'endpoint' => '/forest/smart-actions/smart-action-single',
+                    'type' => 'single',
+                ]
             ),
+            App::makeWith(SmartAction::class,
+                [
+                    'model' => class_basename($this),
+                    'name'  => 'smart action bulk',
+                    'endpoint' => '/forest/smart-actions/smart-action-bulk',
+                    'type' => 'bulk',
+                ]
+            ),
+            App::makeWith(SmartAction::class,
+                [
+                    'model' => class_basename($this),
+                    'name'  => 'smart action global',
+                    'endpoint' => '/forest/smart-actions/smart-action-global',
+                    'type' => 'global',
+                ]
+            ),
+            App::makeWith(SmartAction::class,
+                [
+                    'model' => class_basename($this),
+                    'name'  => 'smart action download',
+                    'endpoint' => '/forest/smart-actions/smart-action-download',
+                    'type' => 'global',
+                ]
+            )
+                ->download(true),
+            App::makeWith(SmartAction::class,
+                [
+                    'model' => class_basename($this),
+                    'name'  => 'add comment',
+                    'endpoint' => '/forest/smart-actions/add-comment',
+                    'type' => 'single',
+                ]
+            )
+                ->addField(['field' => 'body', 'type' => 'string', 'is_required' => true])
         ];
     }
 

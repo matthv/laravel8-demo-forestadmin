@@ -40,8 +40,6 @@ class Product extends Model
                 ]
             )
                 ->download(true)
-                ->addField('dsfq,fdqs')
-                ->addField('sddsqdsq')
                 ->hooks([], false),
         ];
     }
