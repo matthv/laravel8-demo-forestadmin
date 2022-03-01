@@ -27,3 +27,4 @@ Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'lead
 Route::post('forest/smart-actions/smart-action-single', [SmartActionsController::class, 'single']);
 Route::post('forest/smart-actions/smart-action-bulk', [SmartActionsController::class, 'bulk']);
 Route::post('forest/smart-actions/smart-action-global', [SmartActionsController::class, 'global']);
+Route::post('forest/smart-actions/smart-action-download', [SmartActionsController::class, 'download']);

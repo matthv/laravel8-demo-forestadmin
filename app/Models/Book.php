@@ -56,6 +56,7 @@ class Book extends Model
             new SmartAction(class_basename($this), 'smart action single', '/forest/smart-actions/smart-action-single', [], 'single'),
             new SmartAction(class_basename($this), 'smart action bulk', '/forest/smart-actions/smart-action-bulk', [], 'bulk'),
             new SmartAction(class_basename($this), 'smart action global', '/forest/smart-actions/smart-action-global', [], 'global'),
+            new SmartAction(class_basename($this), 'smart action download', '/forest/smart-actions/smart-action-download', [], 'global', true),
         ];
     }
 

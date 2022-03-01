@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use Faker\Factory;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SmartActionsController extends Controller
 {
@@ -51,5 +55,15 @@ class SmartActionsController extends Controller
         return response()->json(
             ['success' => 'Books updated']
         );
+    }
+
+    /**
+     * @return StreamedResponse
+     */
+    public function download(): StreamedResponse
+    {
+        Storage::put('file.txt', Str::random());
+
+        return Storage::download('file.txt');
     }
 }
