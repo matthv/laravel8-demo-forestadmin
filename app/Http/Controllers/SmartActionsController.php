@@ -3,17 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class SmartActionsController extends Controller
 {
+    use RequestBulk;
+
     /**
-     * @return Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function single(): Response
+    public function single(Request $request): JsonResponse
     {
-        return response()->noContent();
+        $id = $request->input('data.attributes.ids')[0];
+        $book = Book::findOrFail($id);
+        $book->active = true;
+        $book->save();
+
+        return response()->json(
+            ['success' => "$book->id is now active !"]
+        );
     }
 
     /**
@@ -21,6 +33,11 @@ class SmartActionsController extends Controller
      */
     public function bulk(): Response
     {
+        $ids = $this->getIdsFromBulkRequest();
+        Book::whereIn('id', $ids)->update(['other' => 'update with smart action bulk']);
+
+        // TODO SUCCESS ?
+
         return response()->noContent();
     }
 
