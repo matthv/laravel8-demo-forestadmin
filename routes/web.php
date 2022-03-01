@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SmartActionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,6 @@ Route::post('forest/charts/example-line', [ChartsController::class, 'line']);
 Route::post('forest/charts/example-objective', [ChartsController::class, 'objective']);
 Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'leaderboard']);
 
+Route::post('forest/smart-actions/smart-action-single', [SmartActionsController::class, 'single']);
+Route::post('forest/smart-actions/smart-action-bulk', [SmartActionsController::class, 'bulk']);
+Route::post('forest/smart-actions/smart-action-global', [SmartActionsController::class, 'global']);

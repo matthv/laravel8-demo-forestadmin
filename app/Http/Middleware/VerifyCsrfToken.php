@@ -17,5 +17,9 @@ class VerifyCsrfToken extends Middleware
         '/forest/charts/example-line',
         '/forest/charts/example-objective',
         '/forest/charts/example-leaderboard',
+        '/forest/charts/example-leaderboard',
+        'forest/smart-actions/smart-action-single',
+        'forest/smart-actions/smart-action-bulk',
+        'forest/smart-actions/smart-action-global',
     ];
 }

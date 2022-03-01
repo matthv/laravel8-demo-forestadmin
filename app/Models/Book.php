@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use ForestAdmin\LaravelForestAdmin\Facades\SmartAction;
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +44,18 @@ class Book extends Model
             // todo à virer
             //['field' => 'label', 'is_required' => false],
             ['field' => 'difficulty', 'enums' => ['easy', 'hard']],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function smartActions(): array
+    {
+        return [
+            SmartAction::create(class_basename($this), 'smart action single', '/forest/smart-actions/smart-action-single', [], 'single'),
+            SmartAction::create(class_basename($this), 'smart action bulk', '/forest/smart-actions/smart-action-bulk', [], 'bulk'),
+            SmartAction::create(class_basename($this), 'smart action global', '/forest/smart-actions/smart-action-global', [], 'global'),
         ];
     }
 
