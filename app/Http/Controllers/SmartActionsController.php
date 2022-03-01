@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use Faker\Factory;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,8 +39,6 @@ class SmartActionsController extends Controller
         $ids = $this->getIdsFromBulkRequest();
         Book::whereIn('id', $ids)->update(['other' => 'update with smart action bulk']);
 
-        // TODO SUCCESS ?
-
         return response()->noContent();
     }
 
@@ -65,6 +62,14 @@ class SmartActionsController extends Controller
         Storage::put('file.txt', Str::random());
 
         return Storage::download('file.txt');
+    }
+
+    /**
+     * @return void
+     */
+    public function hook()
+    {
+
     }
 
     /**

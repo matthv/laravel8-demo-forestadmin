@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
         'forest/smart-actions/smart-action-bulk',
         'forest/smart-actions/smart-action-global',
         'forest/smart-actions/smart-action-download',
+        'forest/smart-actions/smart-action-hook',
         'forest/smart-actions/add-comment',
     ];
 }

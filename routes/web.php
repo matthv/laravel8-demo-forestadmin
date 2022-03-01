@@ -28,4 +28,5 @@ Route::post('forest/smart-actions/smart-action-single', [SmartActionsController:
 Route::post('forest/smart-actions/smart-action-bulk', [SmartActionsController::class, 'bulk']);
 Route::post('forest/smart-actions/smart-action-global', [SmartActionsController::class, 'global']);
 Route::post('forest/smart-actions/smart-action-download', [SmartActionsController::class, 'download']);
+Route::post('forest/smart-actions/smart-action-hook', [SmartActionsController::class, 'hook']);
 Route::post('forest/smart-actions/add-comment', [SmartActionsController::class, 'addComment']);
