@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use ForestAdmin\LaravelForestAdmin\Http\Controllers\SmartActionController;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,9 +12,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class SmartActionsController extends Controller
+class SmartActionBooksController extends SmartActionController
 {
     use RequestBulk;
+
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct(app(Book::class));
+    }
 
     /**
      * @param Request $request
@@ -33,6 +42,7 @@ class SmartActionsController extends Controller
 
     /**
      * @return Response
+     * @throws \Exception
      */
     public function bulk(): Response
     {
@@ -65,22 +75,17 @@ class SmartActionsController extends Controller
     }
 
     /**
-     * @return void
-     */
-    public function hook()
-    {
-
-    }
-
-    /**
      * @param Request $request
      * @return JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function addComment(Request $request): JsonResponse
     {
+
         $id = $request->input('data.attributes.ids')[0];
         $body = $request->input('data.attributes.values.body');
         $book = Book::findOrFail($id);
+//        $this->authorize('smartAction', $book);
         $book->comments()->create(
             [
                 'body'    => $body,

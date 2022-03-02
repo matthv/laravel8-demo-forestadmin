@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SmartActionsController;
+use App\Http\Controllers\SmartActionBooksController;
+use App\Http\Controllers\SmartActionProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,9 +25,10 @@ Route::post('forest/charts/example-line', [ChartsController::class, 'line']);
 Route::post('forest/charts/example-objective', [ChartsController::class, 'objective']);
 Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'leaderboard']);
 
-Route::post('forest/smart-actions/smart-action-single', [SmartActionsController::class, 'single']);
-Route::post('forest/smart-actions/smart-action-bulk', [SmartActionsController::class, 'bulk']);
-Route::post('forest/smart-actions/smart-action-global', [SmartActionsController::class, 'global']);
-Route::post('forest/smart-actions/smart-action-download', [SmartActionsController::class, 'download']);
-Route::post('forest/smart-actions/smart-action-hook', [SmartActionsController::class, 'hook']);
-Route::post('forest/smart-actions/add-comment', [SmartActionsController::class, 'addComment']);
+Route::post('forest/smart-actions/smart-action-single', [SmartActionBooksController::class, 'single']);
+Route::post('forest/smart-actions/smart-action-bulk', [SmartActionBooksController::class, 'bulk']);
+Route::post('forest/smart-actions/smart-action-global', [SmartActionBooksController::class, 'global']);
+Route::post('forest/smart-actions/smart-action-download', [SmartActionBooksController::class, 'download']);
+Route::post('forest/smart-actions/add-comment', [SmartActionBooksController::class, 'addComment']);
+
+Route::post('forest/smart-actions/smart-action-hook', [SmartActionProductsController::class, 'hook']);
