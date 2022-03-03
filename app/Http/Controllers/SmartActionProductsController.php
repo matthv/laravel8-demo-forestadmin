@@ -18,17 +18,22 @@ class SmartActionProductsController extends AbstractSmartActionController
     use RequestBulk;
 
     /**
-     * @return string
+     * SmartActionProductsController Constructor
      */
     public function getCollection(): string
     {
         return Product::class;
     }
 
+    public function getCollection(): string
+    {
+        // TODO: Implement getCollection() method.
+    }
+
     /**
      * @return void
      */
-    public function hook()
+    public function removeToken()
     {
         //TODO
     }

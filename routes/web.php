@@ -31,4 +31,4 @@ Route::post('forest/smart-actions/smart-action-global', [SmartActionBooksControl
 Route::post('forest/smart-actions/smart-action-download', [SmartActionBooksController::class, 'download']);
 Route::post('forest/smart-actions/add-comment', [SmartActionBooksController::class, 'addComment']);
 
-Route::post('forest/smart-actions/smart-action-hook', [SmartActionProductsController::class, 'hook']);
+Route::post('forest/smart-actions/remove-token', [SmartActionProductsController::class, 'removeToken']);
