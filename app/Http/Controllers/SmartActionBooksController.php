@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use ForestAdmin\LaravelForestAdmin\Http\Controllers\SmartActionController;
+use ForestAdmin\LaravelForestAdmin\Http\Controllers\AbstractSmartActionController;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class SmartActionBooksController extends SmartActionController
+class SmartActionBooksController extends AbstractSmartActionController
 {
     use RequestBulk;
 
     /**
-     *
+     * @return string
      */
-    public function __construct()
+    public function getCollection(): string
     {
-        parent::__construct(app(Book::class));
+        return Book::class;
     }
 
     /**

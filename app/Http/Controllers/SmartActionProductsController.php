@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use ForestAdmin\LaravelForestAdmin\Http\Controllers\SmartActionController;
+use ForestAdmin\LaravelForestAdmin\Http\Controllers\AbstractSmartActionController;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 
 /**
@@ -13,18 +13,17 @@ use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
  * @license  GNU https://www.gnu.org/licences/licences.html
  * @link     https://github.com/ForestAdmin/laravel-forestadmin
  */
-class SmartActionProductsController extends SmartActionController
+class SmartActionProductsController extends AbstractSmartActionController
 {
     use RequestBulk;
 
     /**
-     *
+     * @return string
      */
-    public function __construct()
+    public function getCollection(): string
     {
-        parent::__construct(app(Product::class));
+        return Product::class;
     }
-
 
     /**
      * @return void
