@@ -24,11 +24,3 @@ Route::post('forest/charts/example-pie', [ChartsController::class, 'pie']);
 Route::post('forest/charts/example-line', [ChartsController::class, 'line']);
 Route::post('forest/charts/example-objective', [ChartsController::class, 'objective']);
 Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'leaderboard']);
-
-Route::post('forest/smart-actions/smart-action-single', [SmartActionBooksController::class, 'single']);
-Route::post('forest/smart-actions/smart-action-bulk', [SmartActionBooksController::class, 'bulk']);
-Route::post('forest/smart-actions/smart-action-global', [SmartActionBooksController::class, 'global']);
-Route::post('forest/smart-actions/smart-action-download', [SmartActionBooksController::class, 'download']);
-Route::post('forest/smart-actions/add-comment', [SmartActionBooksController::class, 'addComment']);
-
-Route::post('forest/smart-actions/smart-action-hook', [SmartActionProductsController::class, 'hook']);
