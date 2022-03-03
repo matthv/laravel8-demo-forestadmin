@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 class Product extends Model
@@ -24,24 +25,25 @@ class Product extends Model
     ];
 
     /**
-     * @return array
-     * @throws BindingResolutionException
+     * @return Collection
      */
-    public function smartActions(): array
+    public function smartActions(): Collection
     {
-        return [
+        return collect([
             App::makeWith(
                 SmartAction::class,
                 [
                     'model'    => class_basename($this),
                     'name'     => 'smart action hook',
-                    'endpoint' => '/forest/smart-actions/smart-action-hook',
                     'type'     => 'bulk',
+                    'execute' => function () {
+                        return [];
+                    },
                 ]
             )
                 ->download(true)
-                ->hooks([], false),
-        ];
+                ->hooks(false, []),
+        ]);
     }
 
     public function user(): BelongsTo
