@@ -79,9 +79,7 @@ class Book extends Model
                     'model'   => class_basename($this),
                     'name'    => 'test',
                     'type'    => 'single',
-                    'execute' => function () {
-                        return ['success' => "test working!"];
-                    },
+                    'execute' => fn () => ['success' => "test working!"],
                 ]
             ),
             App::makeWith(SmartAction::class,
