@@ -35,14 +35,21 @@ class Product extends Model
                 [
                     'model'    => class_basename($this),
                     'name'     => 'smart action hook',
-                    'type'     => 'bulk',
+                    'type'     => 'single',
                     'execute' => function () {
                         return [];
                     },
                 ]
             )
-                ->download(true)
-                ->hooks(false, []),
+                ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
+                ->load(
+                    function() {
+                        $fields = $this->getFields();
+                        $fields->first()->setValue('default');
+
+                        return $fields;
+                    }
+                ),
         ]);
     }
 
