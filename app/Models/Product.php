@@ -42,14 +42,25 @@ class Product extends Model
                 ]
             )
                 ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
+                ->addField(['field' => 'foo', 'type' => 'string', 'is_required' => true, 'hook' => 'onFooChange'])
                 ->load(
                     function() {
                         $fields = $this->getFields();
-                        $fields->first()->setValue('default');
+                        $fields['token']['value'] = 'default';
 
                         return $fields;
                     }
-                ),
+                )
+                ->change(
+                    [
+                        'onFooChange' => function () {
+                            $fields = $this->getFields();
+                            $fields['token']['value'] = 'Test onChange Foo';
+
+                            return $fields;
+                        }
+                    ]
+                )
         ]);
     }
 
