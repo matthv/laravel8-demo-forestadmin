@@ -19,7 +19,7 @@ update the repositories/url section and add your local forest admin package.
 example : */Users/johndoe/.../laravel-forestadmin*  
 
 ```
-rm -f composer.lock && composer install
+composer install
 ```
 
 ### .env file
@@ -28,11 +28,6 @@ cp .env.example.com .env
 php artisan key:generate
 ```
 set your database connection (DB section)
-
-### forest config
-```
-php artisan vendor:publish --provider="ForestAdmin\LaravelForestAdmin\ForestServiceProvider" --tag="config"
-```
 
 ### migrate & seed
 ```
@@ -45,7 +40,12 @@ npm install && npm run production
 ```
 
 ## Forest Admin
-Start your onboarding on Forest Admin and copy past the api secret to your config/forest.php file.
+Start your onboarding on Forest Admin.
+```
+composer require forestadmin/laravel-forestadmin
+php artisan vendor:publish --provider="ForestAdmin\LaravelForestAdmin\ForestServiceProvider" --tag="config"
+php artisan forest:setup-keys YOUR-FOREST-KEY
+```
 
 ## Serving Laravel
 ```
