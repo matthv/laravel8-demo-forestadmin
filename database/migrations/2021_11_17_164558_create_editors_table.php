@@ -16,7 +16,7 @@ class CreateEditorsTable extends Migration
         Schema::create('editors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->foreignId('book_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
