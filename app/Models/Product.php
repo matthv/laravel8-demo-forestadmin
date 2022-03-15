@@ -23,11 +23,6 @@ class Product extends Model
         'delivery_date',
         'user_id',
     ];
-//
-//    /**
-//     * @var
-//     */
-//    protected $forestAppends =
 
     protected $casts = [
         'delivery_date' => 'datetime',
@@ -40,7 +35,16 @@ class Product extends Model
     {
         return $this->smartField(['type' => 'string'])
             ->get(
-                fn() => $this->label . ' - ' . $this->price
+                fn() => $this->label . '-' . $this->price
+            )
+            ->set(
+                function ($value) {
+                    [$label, $price] = explode('-', $value);
+                    $this->label = $label;
+                    $this->price = $price;
+
+                    return $this;
+                }
             );
     }
 
