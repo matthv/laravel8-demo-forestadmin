@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
-use ForestAdmin\LaravelForestAdmin\Services\SmartActions\SmartAction;
-use Illuminate\Contracts\Container\BindingResolutionException;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +23,26 @@ class Product extends Model
         'delivery_date',
         'user_id',
     ];
+//
+//    /**
+//     * @var
+//     */
+//    protected $forestAppends =
+
+    protected $casts = [
+        'delivery_date' => 'datetime',
+    ];
+
+    /**
+     * @return SmartField
+     */
+    public function reference(): SmartField
+    {
+        return $this->smartField(['type' => 'string'])
+            ->get(
+                fn() => $this->label . ' - ' . $this->price
+            );
+    }
 
     /**
      * @return Collection
