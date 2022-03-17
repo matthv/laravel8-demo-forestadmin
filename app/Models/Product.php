@@ -34,7 +34,13 @@ class Product extends Model
      */
     public function reference(): SmartField
     {
-        return $this->smartField(['type' => 'string', 'is_filterable' => true])
+        return $this->smartField(
+            [
+                'type'          => 'string',
+                'is_filterable' => true,
+                'is_sortable'   => true,
+            ]
+        )
             ->get(
                 fn() => $this->label . '-' . $this->price
             )
@@ -45,6 +51,20 @@ class Product extends Model
                     $this->price = $price;
 
                     return $this;
+                }
+            )
+            ->sort(
+                function (Builder $query, string $direction) {
+                    return $query->orderBy('price', $direction)
+                        ->orderBy('label', 'ASC');
+                }
+            )
+            ->search(
+                function (Builder $query, $value) {
+                    return $query->orWhere(
+                        fn($query) => $query->whereRaw("LOWER(label) LIKE LOWER(?)", ['%' . $value . '%'])
+                            ->orWhereRaw("LOWER(price::text) LIKE LOWER(?)", ['%' . $value . '%'])
+                    );
                 }
             )
             ->filter(
@@ -75,9 +95,8 @@ class Product extends Model
                             );
                             break;
                         case 'contains':
-                            $query->where(fn($query) =>
-                                $query->whereRaw("LOWER(label) LIKE LOWER(?)", ['%' . $value . '%'])
-                                    ->orWhereRaw("LOWER(price::text) LIKE LOWER(?)", ['%' . $value . '%']),
+                            $query->where(fn($query) => $query->whereRaw("LOWER(label) LIKE LOWER(?)", ['%' . $value . '%'])
+                                ->orWhereRaw("LOWER(price::text) LIKE LOWER(?)", ['%' . $value . '%']),
                                 null,
                                 null,
                                 $aggregator
@@ -104,9 +123,9 @@ class Product extends Model
                 App::makeWith(
                     SmartAction::class,
                     [
-                        'model'    => class_basename($this),
-                        'name'     => 'smart action hook',
-                        'type'     => 'single',
+                        'model'   => class_basename($this),
+                        'name'    => 'smart action hook',
+                        'type'    => 'single',
                         'execute' => function () {
                             return [];
                         },
@@ -115,7 +134,7 @@ class Product extends Model
                     ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
                     ->addField(['field' => 'foo', 'type' => 'string', 'is_required' => true, 'hook' => 'onFooChange'])
                     ->load(
-                        function() {
+                        function () {
                             $fields = $this->getFields();
                             $fields['token']['value'] = 'default';
 
@@ -129,21 +148,21 @@ class Product extends Model
                                 $fields['token']['value'] = 'Test onChange Foo';
 
                                 return $fields;
-                            }
+                            },
                         ]
                     ),
                 App::makeWith(
                     SmartAction::class,
                     [
-                        'model'    => class_basename($this),
-                        'name'     => 'smart action hook - load',
-                        'type'     => 'single',
+                        'model'   => class_basename($this),
+                        'name'    => 'smart action hook - load',
+                        'type'    => 'single',
                         'execute' => function () {
                             return ['success' => 'test hook load'];
                         },
                     ]
                 )
-                ->addField(['field' => 'country', 'type' => 'Enum', 'is_required' => true, 'enums' => ['Ukraine', 'Poland','Latvia']])
+                    ->addField(['field' => 'country', 'type' => 'Enum', 'is_required' => true, 'enums' => ['Ukraine', 'Poland', 'Latvia']]),
             ]
         );
     }
