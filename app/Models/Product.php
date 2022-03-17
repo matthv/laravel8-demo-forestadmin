@@ -5,6 +5,7 @@ namespace App\Models;
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartField;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +34,7 @@ class Product extends Model
      */
     public function reference(): SmartField
     {
-        return $this->smartField(['type' => 'string'])
+        return $this->smartField(['type' => 'string', 'is_filterable' => true])
             ->get(
                 fn() => $this->label . '-' . $this->price
             )
@@ -44,6 +45,51 @@ class Product extends Model
                     $this->price = $price;
 
                     return $this;
+                }
+            )
+            ->filter(
+                function (Builder $query, $value, string $operator, string $aggregator) {
+                    switch ($operator) {
+                        case 'present':
+                            $query->where(
+                                fn($query) => $query->where(
+                                    fn($query) => $query->whereNotNull('label')->orWhere('label', '!=', '')
+                                )->orWhere(
+                                    fn($query) => $query->whereNotNull('price')
+                                ),
+                                null,
+                                null,
+                                $aggregator
+                            );
+                            break;
+                        case 'blank':
+                            $query->where(
+                                fn($query) => $query->where(
+                                    fn($query) => $query->whereNull('label')->orWhere('label', '=', '')
+                                )->orWhere(
+                                    fn($query) => $query->whereNull('price')->orWhere('price', '=', '')
+                                ),
+                                null,
+                                null,
+                                $aggregator
+                            );
+                            break;
+                        case 'contains':
+                            $query->where(fn($query) =>
+                                $query->whereRaw("LOWER(label) LIKE LOWER(?)", ['%' . $value . '%'])
+                                    ->orWhereRaw("LOWER(price::text) LIKE LOWER(?)", ['%' . $value . '%']),
+                                null,
+                                null,
+                                $aggregator
+                            );
+                            break;
+                        default:
+                            throw new ForestException(
+                                "Unsupported operator: $operator"
+                            );
+                    }
+
+                    return $query;
                 }
             );
     }
