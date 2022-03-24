@@ -4,6 +4,8 @@ namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartField;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartRelationship;
 use ForestAdmin\LaravelForestAdmin\Utils\Traits\RequestBulk;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,8 +49,6 @@ class Book extends Model
     public function schemaFields(): array
     {
         return [
-            // todo à virer
-            //['field' => 'label', 'is_required' => false],
             ['field' => 'difficulty', 'enums' => ['easy', 'hard']],
         ];
     }
@@ -145,6 +145,27 @@ class Book extends Model
             )
                 ->addField(['field' => 'body', 'type' => 'string', 'is_required' => true]),
         ]);
+    }
+
+    /**
+     * @return SmartField
+     */
+    public function smartBookstores(): SmartRelationship
+    {
+        return $this->smartRelationship(
+            [
+                'type' => ['String'],
+                'reference' => 'bookstore.id'
+            ]
+        )
+            ->get(
+                static function ($id) {
+                    return Bookstore::leftJoin('companies', 'companies.id', '=', 'bookstores.company_id')
+                        ->leftJoin('books','companies.book_id', '=', 'books.id')
+                        ->where('books.id', $id)
+                        ->paginate();
+                }
+            );
     }
 
     /**
