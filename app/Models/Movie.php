@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
-use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartField;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,9 +15,9 @@ class Movie extends Model
     /**
      * @return SmartField
      */
-    public function bookCategory(): SmartField
+    public function bookCategory(): SmartRelationship
     {
-        return $this->smartField(
+        return $this->smartRelationship(
             [
                 'type' => 'String',
                 'reference' => 'category.id'
