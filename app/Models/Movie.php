@@ -25,12 +25,10 @@ class Movie extends Model
         )
             ->get(
                 function () {
-                    $category = Category::select('categories.*')
+                    return Category::select('categories.*')
                         ->join('books', 'books.category_id', '=', 'categories.id')
                         ->where('books.id', $this->book_id)
                         ->first();
-
-                    return $category;
                 }
             );
     }
