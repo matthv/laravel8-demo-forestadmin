@@ -13,7 +13,7 @@ class Movie extends Model
     use HasFactory, ForestCollection;
 
     /**
-     * @return SmartField
+     * @return SmartRelationship
      */
     public function bookCategory(): SmartRelationship
     {

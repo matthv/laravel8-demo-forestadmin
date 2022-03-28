@@ -148,7 +148,7 @@ class Book extends Model
     }
 
     /**
-     * @return SmartField
+     * @return SmartRelationship
      */
     public function smartBookstores(): SmartRelationship
     {
