@@ -23,8 +23,9 @@ class Comic extends SmartCollection
             [
                 new SmartField(
                     [
-                        'field' => 'id',
-                        'type'  => 'Number',
+                        'field'       => 'id',
+                        'type'        => 'Number',
+                        'is_sortable' => true,
                     ]
                 ),
                 new SmartField(
