@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\ComicsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SmartActionBooksController;
 use App\Http\Controllers\SmartActionProductsController;
@@ -24,3 +25,5 @@ Route::post('forest/charts/example-pie', [ChartsController::class, 'pie']);
 Route::post('forest/charts/example-line', [ChartsController::class, 'line']);
 Route::post('forest/charts/example-objective', [ChartsController::class, 'objective']);
 Route::post('forest/charts/example-leaderboard', [ChartsController::class, 'leaderboard']);
+
+Route::get('forest/comic', [ComicsController::class, 'index']);
