@@ -157,15 +157,7 @@ class Book extends Model
                 'type' => ['String'],
                 'reference' => 'bookstore.id'
             ]
-        )
-            ->get(
-                static function ($id) {
-                    return Bookstore::leftJoin('companies', 'companies.id', '=', 'bookstores.company_id')
-                        ->leftJoin('books','companies.book_id', '=', 'books.id')
-                        ->where('books.id', $id)
-                        ->paginate();
-                }
-            );
+        );
     }
 
     /**
