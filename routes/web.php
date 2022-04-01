@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ComicsController;
 use App\Http\Controllers\HomeController;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 // Smart relationships
-//Route::get('forest/book/{book}/relationships/smartBookstores', [BooksController::class, 'bookstores']);
+Route::get('forest/book/{id}/relationships/smartBookstores', [BooksController::class, 'bookstores']);
 
 Route::get('forest/comic', [ComicsController::class, 'index']);
 
