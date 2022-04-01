@@ -54,97 +54,109 @@ class Book extends Model
     }
 
     /**
-     * @return Collection
+     * @return SmartAction
      */
-    public function smartActions(): Collection
+    public function smartActionSingle(): SmartAction
     {
-        return collect([
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'smart action single',
-                    'type'    => 'single',
-                    'execute' => function () {
-                        $id = request()->input('data.attributes.ids')[0];
-                        $book = Book::findOrFail($id);
-                        $book->active = true;
-                        $book->save();
+        return $this->smartAction(
+            'single',
+                function () {
+                    $id = request()->input('data.attributes.ids')[0];
+                    $book = Book::findOrFail($id);
+                    $book->active = true;
+                    $book->save();
 
-                        return ['success' => "$book->id is now active !"];
-                    },
-                ]
-            ),
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'test',
-                    'type'    => 'single',
-                    'execute' => fn () => ['success' => "test working!"],
-                ]
-            ),
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'smart action bulk',
-                    'type'    => 'bulk',
-                    'execute' => function () {
-                        $ids = $this->getIdsFromBulkRequest();
-                        Book::whereIn('id', $ids)->update(['other' => 'update with smart action bulk']);
+                    return ['success' => "$book->id is now active !"];
+                }
+        );
+    }
 
-                        return [];
-                    },
-                ]
-            ),
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'smart action global',
-                    'type'    => 'global',
-                    'execute' => function () {
-                        Book::where('active', true)->update(['other' => 'update with smart action']);
+    /**
+     * @return SmartAction
+     */
+    public function test(): SmartAction
+    {
+        return $this->smartAction(
+            'single',
+            fn () => ['success' => "test working!"]
+        );
+    }
 
-                        return ['success' => 'Books updated'];
-                    },
-                ]
-            ),
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'smart action download',
-                    'type'    => 'global',
-                    'execute' => function () {
-                        Storage::put('file.txt', Str::random());
+    /**
+     * @return SmartAction
+     */
+    public function smartActionBulk(): SmartAction
+    {
+        return $this->smartAction(
+            'bulk',
+            function () {
+                $ids = $this->getIdsFromBulkRequest();
+                Book::whereIn('id', $ids)->update(['other' => 'update with smart action bulk']);
 
-                        return Storage::download('file.txt');
-                    },
-                ]
-            )
-                ->download(true),
-            App::makeWith(SmartAction::class,
-                [
-                    'model'   => class_basename($this),
-                    'name'    => 'add comment',
-                    'type'    => 'single',
-                    'execute' => static function () {
-                        $id = request()->input('data.attributes.ids')[0];
-                        $body = request()->input('data.attributes.values.body');
-                        $book = Book::findOrFail($id);
-                        $book->comments()->create(
-                            [
-                                'body'    => $body,
-                                'user_id' => auth('forest')->user()->getKey(),
-                            ]
-                        );
+                return [];
+            },
+            'smart action bulk'
+        );
+    }
 
-                        return [
-                            'success' => 'Comment created',
-                            'refresh' => ['relationships' => ['comments']],
-                        ];
-                    },
-                ]
-            )
-                ->addField(['field' => 'body', 'type' => 'string', 'is_required' => true]),
-        ]);
+    /**
+     * @return SmartAction
+     */
+    public function smartActionGlobal(): SmartAction
+    {
+        return $this->smartAction(
+            'global',
+            function () {
+                Book::where('active', true)->update(['other' => 'update with smart action']);
+
+                return ['success' => 'Books updated'];
+            },
+            'smart action global'
+        );
+    }
+
+    /**
+     * @return SmartAction
+     */
+        public function smartActionDownload(): SmartAction
+    {
+        return $this->smartAction(
+            'global',
+            function () {
+                Storage::put('file.txt', Str::random());
+
+                return Storage::download('file.txt');
+            },
+            'smart action download'
+        )
+            ->download(true);
+    }
+
+    /**
+     * @return SmartAction
+     */
+    public function addComment(): SmartAction
+    {
+        return $this->smartAction(
+            'single',
+            function () {
+                $id = request()->input('data.attributes.ids')[0];
+                $body = request()->input('data.attributes.values.body');
+                $book = Book::findOrFail($id);
+                $book->comments()->create(
+                    [
+                        'body'    => $body,
+                        'user_id' => auth('forest')->user()->getKey(),
+                    ]
+                );
+
+                return [
+                    'success' => 'Comment created',
+                    'refresh' => ['relationships' => ['comments']],
+                ];
+            },
+        )
+            ->addField(['field' => 'body', 'type' => 'string', 'is_required' => true]);
     }
 
     /**

@@ -113,57 +113,47 @@ class Product extends Model
     }
 
     /**
-     * @return Collection
+     * @return SmartAction
      */
-    public function smartActions(): Collection
+    public function smartActionHook(): SmartAction
     {
-        return collect(
-            [
-                App::makeWith(
-                    SmartAction::class,
-                    [
-                        'model'   => class_basename($this),
-                        'name'    => 'smart action hook',
-                        'type'    => 'single',
-                        'execute' => function () {
-                            return [];
-                        },
-                    ]
-                )
-                    ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
-                    ->addField(['field' => 'foo', 'type' => 'string', 'is_required' => true, 'hook' => 'onFooChange'])
-                    ->load(
-                        function () {
-                            $fields = $this->getFields();
-                            $fields['token']['value'] = 'default';
+        return $this->smartAction(
+            'single',
+            fn () => [],
+        )
+            ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
+            ->addField(['field' => 'foo', 'type' => 'string', 'is_required' => true, 'hook' => 'onFooChange'])
+            ->load(
+                function () {
+                    $fields = $this->getFields();
+                    $fields['token']['value'] = 'default';
 
-                            return $fields;
-                        }
-                    )
-                    ->change(
-                        [
-                            'onFooChange' => function () {
-                                $fields = $this->getFields();
-                                $fields['token']['value'] = 'Test onChange Foo';
+                    return $fields;
+                }
+            )
+            ->change(
+                [
+                    'onFooChange' => function () {
+                        $fields = $this->getFields();
+                        $fields['token']['value'] = 'Test onChange Foo';
 
-                                return $fields;
-                            },
-                        ]
-                    ),
-                App::makeWith(
-                    SmartAction::class,
-                    [
-                        'model'   => class_basename($this),
-                        'name'    => 'smart action hook - load',
-                        'type'    => 'single',
-                        'execute' => function () {
-                            return ['success' => 'test hook load'];
-                        },
-                    ]
-                )
-                    ->addField(['field' => 'country', 'type' => 'Enum', 'is_required' => true, 'enums' => ['Ukraine', 'Poland', 'Latvia']]),
-            ]
-        );
+                        return $fields;
+                    },
+                ]
+            );
+    }
+
+    /**
+     * @return SmartAction
+     */
+    public function smartActionHookLoad(): SmartAction
+    {
+        return $this->smartAction(
+            'single',
+            fn () => [],
+            'smart action hook - load'
+        )
+            ->addField(['field' => 'country', 'type' => 'Enum', 'is_required' => true, 'enums' => ['Ukraine', 'Poland', 'Latvia']]);
     }
 
     public function user(): BelongsTo
