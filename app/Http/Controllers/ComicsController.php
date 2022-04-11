@@ -16,10 +16,18 @@ class ComicsController extends Controller
      */
     public function index(): JsonResponse
     {
-        $comics = Book::select('id', 'label', 'amount AS price')->whereDifficulty('easy')->get();
+        $query = Book::select('id', 'label', 'amount AS price')->whereDifficulty('easy');
+        $pageParams = request()->query('page') ?? [];
+
+        $comics = $query->paginate(
+            $pageParams['size'] ?? null,
+            '*',
+            'page',
+            $pageParams['number'] ?? null
+        );
 
         return response()->json(
-            JsonApi::render($comics, 'comic')
+            JsonApi::render($comics, 'comic', ['count' => $comics->total()])
         );
     }
 
