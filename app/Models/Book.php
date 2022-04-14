@@ -60,6 +60,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'single',
+                'action single',
                 function () {
                     $id = request()->input('data.attributes.ids')[0];
                     $book = Book::findOrFail($id);
@@ -78,6 +79,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'single',
+            'test',
             fn () => ['success' => "test working!"]
         );
     }
@@ -89,6 +91,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'bulk',
+            null,
             function () {
                 $ids = $this->getIdsFromBulkRequest();
                 Book::whereIn('id', $ids)->update(['other' => 'update with smart action bulk']);
@@ -106,6 +109,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'global',
+            null,
             function () {
                 Book::where('active', true)->update(['other' => 'update with smart action']);
 
@@ -122,6 +126,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'global',
+            null,
             function () {
                 Storage::put('file.txt', Str::random());
 
@@ -139,6 +144,7 @@ class Book extends Model
     {
         return $this->smartAction(
             'single',
+            null,
             function () {
                 $id = request()->input('data.attributes.ids')[0];
                 $body = request()->input('data.attributes.values.body');

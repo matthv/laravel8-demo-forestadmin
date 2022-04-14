@@ -119,6 +119,7 @@ class Product extends Model
     {
         return $this->smartAction(
             'single',
+            null,
             fn () => [],
         )
             ->addField(['field' => 'token', 'type' => 'string', 'is_required' => true])
@@ -150,6 +151,7 @@ class Product extends Model
     {
         return $this->smartAction(
             'single',
+            null,
             fn () => [],
             'smart action hook - load'
         )
