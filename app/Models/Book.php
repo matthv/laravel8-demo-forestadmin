@@ -19,6 +19,13 @@ class Book extends Model
     use HasFactory;
 
     /**
+     * @var string[]
+     */
+    protected $casts = [
+        'options' => 'array',
+    ];
+
+    /**
      * @return BelongsTo
      */
     public function category(): BelongsTo
